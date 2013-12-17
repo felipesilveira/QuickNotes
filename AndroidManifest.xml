@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="android.helloworld"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="4" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="QuickNotes" >
+        <activity
+            android:name=".MainActivity"
+            android:label="QuickNotes" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="android.helloworld.WelcomeActivity" />
+
+        <provider
+            android:name="android.helloworld.QuickNotesProvider"
+            android:authorities="android.helloworld.quicknotesprovider" />
+
+        <service android:name="android.helloworld.sync.QuickNotesSyncService" >
+        </service>
+    </application>
+
+</manifest>
