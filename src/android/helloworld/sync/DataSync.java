@@ -8,37 +8,35 @@ import android.helloworld.QuickNotesProvider;
 import android.net.Uri;
 import android.util.Log;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class DataSync {
 
 	private static final String TAG = "DataSync";
 	
-    private static String URL = "http://177.71.249.232/WebService/SaveService.asmx ";
-	
     private Context mContext;
 
-	private static boolean sSyncing;
-    
     public DataSync(Context context) {
     	mContext = context;
     }
 
 	public void syncPendingNotes() {
 		
-		if(sSyncing) return;
-		
-		sSyncing = true;
-		
-		Log.v(TAG, "Starting sync process");
+		Log.v(TAG, "Iniciando");
     	// Retrieving unsynced tags
         String columns[] = new String[] { QuickNotesProvider.Notes.TEXT};
         Uri contentUri = QuickNotesProvider.Notes.CONTENT_URI;
-        Cursor cur = mContext.getContentResolver().query(contentUri, columns, // Which columns to return
+        Cursor cur = mContext.getContentResolver().query(contentUri, columns,
         		QuickNotesProvider.Notes.SYNCED + "=0",
-                null, // WHERE clause selection arguments (none)
-                null // Order-by clause (ascending by name)
+                null,
+                null
         );
         if (cur.moveToFirst()) {
-        	Log.v("DataSync", "There are unsynced tags");
+        	Log.v("DataSync", "Existem notas a serem enviadas.");
             String note = null;
             int id = 0;
             do {
@@ -48,8 +46,9 @@ public class DataSync {
 
                 Log.v("DataSync", "Sincronizando " + note );
                 if(sendPendingNote(note)) {
-                	Log.v("DataSync", "Sync feito com sucesso!");
-                	// marking as synced
+                	Log.v("DataSync", "Sincronizacao feita com sucesso!");
+                	// Como a sincronizacao foi bem sucedida, vamos agora marcar a
+                	// flag SYNCED com 1.
                 	ContentValues values = new ContentValues();  
                     values.put(QuickNotesProvider.Notes.SYNCED, "1"); 
                 	int result = mContext.getContentResolver().update(contentUri,
@@ -62,14 +61,42 @@ public class DataSync {
  
             } while (cur.moveToNext());
         } else {
-        	Log.v(TAG, "No new records");
+        	Log.v(TAG, "Sem novas notas");
         }
         cur.close();
-        sSyncing = false;
     }
 
 	public boolean sendPendingNote(String note) {
 
+		String urlParameters = "nota="+note;
+		String request = "http://www.felipesilveira.com.br/android-core/backend/send.php";
+		URL url;
+		try {
+			url = new URL(request);
+
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();           
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false); 
+			connection.setRequestMethod("POST"); 
+			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+			connection.setRequestProperty("charset", "utf-8");
+			connection.setRequestProperty("Content-Length", "" + Integer.toString(urlParameters.getBytes().length));
+			connection.setUseCaches (false);
+	
+			DataOutputStream wr = new DataOutputStream(connection.getOutputStream ());
+			wr.writeBytes(urlParameters);
+			wr.flush();
+			wr.close();
+			connection.disconnect();
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		return false;
 	}
 }

@@ -5,6 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="4" />
+    
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:icon="@drawable/icon"
@@ -24,8 +26,13 @@
             android:name="android.helloworld.QuickNotesProvider"
             android:authorities="android.helloworld.quicknotesprovider" />
 
-        <service android:name="android.helloworld.sync.QuickNotesSyncService" >
-        </service>
+        <service android:name="android.helloworld.sync.QuickNotesSyncService" />
+
+         <receiver android:name="android.helloworld.sync.ConnWatcher">
+		     <intent-filter>
+		         <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+		 	</intent-filter>
+		</receiver>
     </application>
 
 </manifest>

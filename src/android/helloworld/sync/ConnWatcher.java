@@ -11,17 +11,14 @@ public class ConnWatcher extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
     	ConnectivityManager cm =
-    	        (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    	        (ConnectivityManager)context.getSystemService(
+    	        		Context.CONNECTIVITY_SERVICE);
     	NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
     	
     	boolean isConnected = (activeNetwork != null) && activeNetwork.isConnected();
         if (isConnected) {
-        	
-        	// syncing all unsynced notes
-        	Intent i= new Intent(context, QuickNotesSyncService.class);
+        	Intent i = new Intent(context, QuickNotesSyncService.class);
         	context.startService(i); 
         }
     }
- 
-
 }

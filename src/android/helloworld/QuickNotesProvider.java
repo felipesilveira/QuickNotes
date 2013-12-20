@@ -184,6 +184,7 @@ public class QuickNotesProvider extends ContentProvider {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + NOTES_TABLE + " (" + 
             		Notes.NOTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + 
+            		Notes.SYNCED + " INTEGER," +
             		Notes.TEXT + " LONGTEXT" + ");");
         }
 	        
