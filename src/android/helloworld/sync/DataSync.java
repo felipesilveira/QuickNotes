@@ -70,7 +70,6 @@ public class DataSync {
 	}
 
 	public boolean sendPendingNote(String note) {
-
 		try {
 			String urlParameters = "nota=" + URLEncoder.encode(note,"UTF-8");
 			String request = "http://tests.felipesilveira.com.br/android-core/insert.php";
@@ -99,6 +98,8 @@ public class DataSync {
 			while (inStream.hasNextLine()) {
 			    response += (inStream.nextLine());
 			}
+			
+			// Removendo possiveis quebras de linha
 			response.replaceAll("\n", "");
 	        Log.v("DataSync", "Resposta do server=("+response+")");
 	        

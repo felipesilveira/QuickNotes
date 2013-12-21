@@ -23,6 +23,10 @@ public class MainActivity extends ListActivity {
 	private static final String TAG = "QuickNotesMainActivity";
 	private Cursor mCursor;
 	
+	static {  
+	    System.loadLibrary("ndk1");  
+	}
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,23 +79,27 @@ public class MainActivity extends ListActivity {
      /*
       * Metodo responsavel por inserir um registro no content provider
       */
-	 protected void addNote(String text) {
-		 ContentValues values = new ContentValues();
-		 values.put(QuickNotesProvider.Notes.TEXT, text);
-		 values.put(QuickNotesProvider.Notes.SYNCED, 0);
+     protected void addNote(String text) {
+    	 ContentValues values = new ContentValues();
+    	 values.put(QuickNotesProvider.Notes.TEXT, text);
+    	 values.put(QuickNotesProvider.Notes.SYNCED, 0);
 
-		 getContentResolver().insert(
-		      QuickNotesProvider.Notes.CONTENT_URI, values);
-		 
-		 ConnectivityManager cm =
-	    	        (ConnectivityManager)getSystemService(
-	    	        		Context.CONNECTIVITY_SERVICE);
-	    	NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-	    	
-	    	boolean isConnected = (activeNetwork != null) && activeNetwork.isConnected();
-	        if (isConnected) {
-	        	Intent i = new Intent(this, QuickNotesSyncService.class);
-	        	startService(i); 
-	        }
-	 } 	 
+    	 getContentResolver().insert(
+    			 QuickNotesProvider.Notes.CONTENT_URI, values);
+
+    	 ConnectivityManager cm =
+    			 (ConnectivityManager)getSystemService(
+    					 Context.CONNECTIVITY_SERVICE);
+    	 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+    	 boolean isConnected = (activeNetwork != null) && activeNetwork.isConnected();
+    	 if (isConnected) {
+    		 Intent i = new Intent(this, QuickNotesSyncService.class);
+    		 startService(i); 
+    	 }
+
+    	 helloLog("Nota corretamente adicionada!");  
+     }
+     
+     private native void helloLog(String logThis); 
 }
