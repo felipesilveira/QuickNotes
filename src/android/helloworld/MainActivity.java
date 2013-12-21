@@ -1,7 +1,10 @@
 package android.helloworld;
 
 import android.helloworld.R;
+import android.helloworld.sync.QuickNotesSyncService;
 import android.app.ListActivity;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
@@ -73,9 +77,21 @@ public class MainActivity extends ListActivity {
       */
 	 protected void addNote(String text) {
 		 ContentValues values = new ContentValues();
-		 values.put(QuickNotesProvider.Notes.TEXT, text);  
+		 values.put(QuickNotesProvider.Notes.TEXT, text);
+		 values.put(QuickNotesProvider.Notes.SYNCED, 0);
 
 		 getContentResolver().insert(
 		      QuickNotesProvider.Notes.CONTENT_URI, values);
+		 
+		 ConnectivityManager cm =
+	    	        (ConnectivityManager)getSystemService(
+	    	        		Context.CONNECTIVITY_SERVICE);
+	    	NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+	    	
+	    	boolean isConnected = (activeNetwork != null) && activeNetwork.isConnected();
+	        if (isConnected) {
+	        	Intent i = new Intent(this, QuickNotesSyncService.class);
+	        	startService(i); 
+	        }
 	 } 	 
 }

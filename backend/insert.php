@@ -14,9 +14,10 @@ if($_POST['nota']) {
 	if (!mysql_select_db($database))
 	    die("0");
 	
-	if(mysql_query("INSERT INTO `notes` (nota) VALUES '" . $_POST['nota'] ."'")) {
+	if(mysql_query("INSERT INTO notes (nota) VALUES ('" . $_POST['nota'] ."')")) {
 		echo "1";
 	} else {
+		//echo mysql_error();
 		echo "0";
 	}
 	
