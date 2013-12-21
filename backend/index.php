@@ -2,9 +2,9 @@
 
 <html><head><title>QuickNotes Backend</title></head><body>
 <?php
-$db_host = 'android-core.felipesilveira.com.br';
-$db_user = 'android_core';
-$db_pwd = 'android12';
+$db_host = '';
+$db_user = '';
+$db_pwd = '';
 
 $database = 'android_core';
 $table = 'notes';

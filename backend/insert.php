@@ -1,9 +1,21 @@
 <?php
 
+/* DB Structure:
+
+
+CREATE TABLE IF NOT EXISTS `notes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nota` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=104 ;
+
+
+*/
+
 if($_POST['nota']) {
-	$db_host = 'android-core.felipesilveira.com.br';
-	$db_user = 'android_core';
-	$db_pwd = 'android12';
+	$db_host = '';
+	$db_user = '';
+	$db_pwd = '';
 
 	$database = 'android_core';
 	$table = 'notes';
