@@ -28,8 +28,12 @@ public class DataSync {
 	public void syncPendingNotes() {
 
 		Log.v(TAG, "Iniciando");
-		// Retrieving unsynced tags
-		String columns[] = new String[] { QuickNotesProvider.Notes.TEXT, QuickNotesProvider.Notes.NOTE_ID};
+		// Procurando no banco de dados as entradas com SYNCED = 0,
+		// o que significa que tal dado ainda nao foi enviado ao 
+		// servidor remoto.
+		String columns[] = new String[] { 
+				QuickNotesProvider.Notes.TEXT, 
+				QuickNotesProvider.Notes.NOTE_ID};
 		Uri contentUri = QuickNotesProvider.Notes.CONTENT_URI;
 		Cursor cur = mContext.getContentResolver().query(contentUri, columns,
 				QuickNotesProvider.Notes.SYNCED + "=0",
@@ -41,7 +45,7 @@ public class DataSync {
 			String note = null;
 			int id = 0;
 			do {
-				// Get the field values
+				// Obtendo o valor do campo text
 				note = cur.getString(cur.getColumnIndex(QuickNotesProvider.Notes.TEXT));
 				id = cur.getInt(cur.getColumnIndex(QuickNotesProvider.Notes.NOTE_ID));
 
@@ -101,13 +105,13 @@ public class DataSync {
 	        inStream.close();
 			connection.disconnect();
 			
+			// Quando a nota eh corretamente salva no servidor,
+			// este responde com 1.
 			return response.equals("1");
 
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
