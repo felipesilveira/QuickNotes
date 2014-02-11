@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name="android.helloworld.WelcomeActivity" />
+        <activity android:name="android.helloworld.NoteDetailsActivity" />
 
         <provider
             android:name="android.helloworld.QuickNotesProvider"

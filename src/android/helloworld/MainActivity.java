@@ -1,7 +1,9 @@
 package android.helloworld;
 
 import android.helloworld.R;
+import android.helloworld.adapter.NotesCursorAdapter;
 import android.helloworld.sync.QuickNotesSyncService;
+import android.app.Activity;
 import android.app.ListActivity;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,16 +11,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends BaseActivity {
 	
 	private static final String TAG = "QuickNotesMainActivity";
 	private Cursor mCursor;
@@ -45,24 +51,23 @@ public class MainActivity extends ListActivity {
         
         mCursor = this.getContentResolver().
                   query(QuickNotesProvider.Notes.CONTENT_URI, null, null, null, null);
-
-        ListAdapter adapter = new SimpleCursorAdapter(
-        		              // O primeiro parametro eh o context.
-        		              this, 
-        		              // O segundo, o layout de cada item. 
-        		              R.layout.list_item,
-        		              // O terceiro parametro eh o cursor que contem os dados
-        		              // a serem mostrados
-        		              mCursor,
-        		              // o quarto parametro eh um array com as colunas do cursor
-        		              // que serao mostradas
-        		              new String[] {QuickNotesProvider.Notes.TEXT},
-        		              // o quinto parametro eh um array (com o mesmo tamanho
-        		              // do anterior) com os elementos que receberao
-        		              // os dados.
-        		              new int[] {R.id.text});
- 
-        setListAdapter(adapter);
+        
+        ListView list = (ListView)findViewById(R.id.notes_list);
+        
+        ListAdapter adapter = new NotesCursorAdapter(this, mCursor);
+        
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView parent, View v, int position, long id) {
+				Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+		        String note = cursor.getString(cursor.getColumnIndex(QuickNotesProvider.Notes.TEXT));
+		        
+		        Intent intent = new Intent(MainActivity.this, NoteDetailsActivity.class);
+		        intent.putExtra(NoteDetailsActivity.NOTE, note);
+		        startActivity(intent);
+			}
+        	}); 
      }
      
      /*
