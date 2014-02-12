@@ -71,7 +71,7 @@ public class RemoteNotesActivity extends BaseActivity {
             LayoutInflater inflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View v = inflater.inflate(R.layout.list_item, null);
+            View v = inflater.inflate(R.layout.remote_list_item, null);
 
             ((TextView) v.findViewById(R.id.text)).setText(notes.get(position));
             return v;
