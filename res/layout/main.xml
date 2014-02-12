@@ -24,8 +24,6 @@
             android:ems="10" >
         </EditText>
 
-
-        
     </RelativeLayout>
 
     <ListView

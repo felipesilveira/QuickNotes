@@ -23,6 +23,7 @@
         </activity>
         <activity android:name="android.helloworld.WelcomeActivity" />
         <activity android:name="android.helloworld.NoteDetailsActivity" />
+        <activity android:name="android.helloworld.RemoteNotesActivity" />
 
         <provider
             android:name="android.helloworld.QuickNotesProvider"

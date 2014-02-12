@@ -13,7 +13,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DataSync {
 
@@ -117,5 +123,52 @@ public class DataSync {
 		} 
 		
 		return false;
+	}
+	
+	public static List<String> fetchNotes() {
+	    List<String> notesList = new ArrayList<String>();
+	    try {
+            String request = "http://www.felipesilveira.com.br/android-core/backend/get.php";
+            URL url;
+
+            url = new URL(request);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("GET");
+            connection.setUseCaches (false);
+
+            String response = "";
+            Scanner inStream = new Scanner(connection.getInputStream());
+
+            while (inStream.hasNextLine()) {
+                response += (inStream.nextLine());
+            }
+
+            // Removendo possiveis quebras de linha
+            response.replaceAll("\n", "");
+            Log.v("DataSync", "Resposta do server=("+response+")");
+
+            inStream.close();
+            connection.disconnect();
+
+            JSONObject responseJson = new JSONObject(response);
+            JSONArray notesListJson = responseJson.getJSONArray("Notes");
+
+            for (int i = 0; i< notesListJson.length(); i++) {
+                JSONObject note = notesListJson.getJSONObject(i);
+                notesList.add(note.getString("nota"));
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return notesList;
 	}
 }
