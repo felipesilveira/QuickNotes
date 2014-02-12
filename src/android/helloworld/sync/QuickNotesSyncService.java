@@ -9,7 +9,8 @@ public class QuickNotesSyncService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		new SyncDataTask().execute();
+		DataSync d = new DataSync(QuickNotesSyncService.this);
+		d.syncPendingNotes();
 		return START_NOT_STICKY;
 	}
 

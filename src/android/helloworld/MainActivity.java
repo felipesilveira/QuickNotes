@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity {
 				intent.putExtra(NoteDetailsActivity.NOTE, note);
 				startActivity(intent);
 			}
-		}); 
+		});
 	}
 
 	/*
