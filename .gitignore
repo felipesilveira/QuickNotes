@@ -1,0 +1,12 @@
+
+.classpath
+
+.project
+
+*.prefs
+
+bin/AndroidManifest.xml
+
+bin/classes/.gitignore
+
+gen/.gitignore
