@@ -2,6 +2,7 @@ package android.helloworld;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.helloworld.sync.DataSync;
@@ -14,19 +15,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class RemoteNotesActivity extends BaseActivity {
+/*
+ * Activity responsável por mostrar as notas remotas
+ */
+public class RemoteNotesActivity extends Activity {
     private static final String TAG = "RemoteNotesActivity";
 
     private ListAdapter adapter;
     private List<String> notesList;
     private ListView list;
 
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,14 +9,14 @@ public class QuickNotesSyncService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		DataSync d = new DataSync(QuickNotesSyncService.this);
-		d.syncPendingNotes();
+		SyncDataTask syncTask = new SyncDataTask();
+		syncTask.execute();
 		return START_NOT_STICKY;
 	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		// Neste exemplo, iremos supor que o service sera invocado apenas
+		// Neste exemplo, iremos supor que o service será invocado apenas
 		// atraves de startService()
 		return null;
 	}

@@ -31,5 +31,4 @@ public class NotesCursorAdapter extends CursorAdapter {
         textViewNote.setText(cursor.getString(cursor.getColumnIndex(QuickNotesProvider.Notes.TEXT)));
  
     }
-
 }

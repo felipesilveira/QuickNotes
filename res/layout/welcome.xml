@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TextView android:id="@+id/welcome_text_view" 
+    	android:layout_width="fill_parent"
+    	android:layout_height="300dip"
+    	android:gravity="center"
+    	android:text="Bem vindo à aplicação QuickNotes!\n\nEssa aplicação foi feita durante o curso 'Desenvolvendo para Android' do site felipesilveira.com.br"
+    >
+    </TextView>
+    <Button
+		android:id="@+id/welcome_ok_button"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="Continuar"
+	>
+	</Button>
+</TableLayout>

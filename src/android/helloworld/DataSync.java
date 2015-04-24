@@ -1,4 +1,4 @@
-package android.helloworld.sync;
+package android.helloworld;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -87,13 +87,12 @@ public class DataSync {
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			connection.setInstanceFollowRedirects(false);
-			
 			// Vamos enviar a requisição via POST
 			connection.setRequestMethod("POST"); 
 			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
 			connection.setRequestProperty("charset", "utf-8");
 			connection.setRequestProperty("Content-Length", "" + 
-			Integer.toString(urlParameters.getBytes().length));
+					Integer.toString(urlParameters.getBytes().length));
 			connection.setUseCaches (false);
 
 			// Criando um DataOutputStream que será usado para receber a resposta do servidor.
@@ -101,21 +100,21 @@ public class DataSync {
 			wr.writeBytes(urlParameters);
 			wr.flush();
 			wr.close();
-			
+
 			String response = "";
 			Scanner inStream = new Scanner(connection.getInputStream());
 
 			while (inStream.hasNextLine()) {
-			    response += (inStream.nextLine());
+				response += (inStream.nextLine());
 			}
-			
+
 			// Removendo possiveis quebras de linha
 			response.replaceAll("\n", "");
-	        Log.v("DataSync", "Resposta do server=("+response+")");
-	        
-	        inStream.close();
+			Log.v("DataSync", "Resposta do server=("+response+")");
+
+			inStream.close();
 			connection.disconnect();
-			
+
 			// Quando a nota eh corretamente salva no servidor,
 			// este responde com "1".
 			return response.equals("1");
@@ -125,54 +124,54 @@ public class DataSync {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-		
+
 		return false;
 	}
-	
+
 	public static List<String> fetchNotes() {
-	    List<String> notesList = new ArrayList<String>();
-	    try {
-            String request = "http://www.felipesilveira.com.br/android-core/backend/get.php";
-            URL url;
+		List<String> notesList = new ArrayList<String>();
+		try {
+			String request = "http://www.felipesilveira.com.br/android-core/backend/get.php";
+			URL url;
 
-            url = new URL(request);
+			url = new URL(request);
 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            connection.setInstanceFollowRedirects(false);
-            connection.setRequestMethod("GET");
-            connection.setUseCaches (false);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("GET");
+			connection.setUseCaches (false);
 
-            String response = "";
-            Scanner inStream = new Scanner(connection.getInputStream());
+			String response = "";
+			Scanner inStream = new Scanner(connection.getInputStream());
 
-            while (inStream.hasNextLine()) {
-                response += (inStream.nextLine());
-            }
+			while (inStream.hasNextLine()) {
+				response += (inStream.nextLine());
+			}
 
-            // Removendo possiveis quebras de linha
-            response.replaceAll("\n", "");
-            Log.v("DataSync", "Resposta do server=("+response+")");
+			// Removendo possiveis quebras de linha
+			response.replaceAll("\n", "");
+			Log.v("DataSync", "Resposta do server=("+response+")");
 
-            inStream.close();
-            connection.disconnect();
+			inStream.close();
+			connection.disconnect();
 
-            JSONObject responseJson = new JSONObject(response);
-            JSONArray notesListJson = responseJson.getJSONArray("Notes");
+			JSONObject responseJson = new JSONObject(response);
+			JSONArray notesListJson = responseJson.getJSONArray("Notes");
 
-            for (int i = 0; i< notesListJson.length(); i++) {
-                JSONObject note = notesListJson.getJSONObject(i);
-                notesList.add(note.getString("nota"));
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+			for (int i = 0; i< notesListJson.length(); i++) {
+				JSONObject note = notesListJson.getJSONObject(i);
+				notesList.add(note.getString("nota"));
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 
-        return notesList;
+		return notesList;
 	}
 }

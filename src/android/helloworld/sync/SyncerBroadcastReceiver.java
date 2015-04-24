@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class ConnWatcher extends BroadcastReceiver{
+public class SyncerBroadcastReceiver extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -18,7 +18,7 @@ public class ConnWatcher extends BroadcastReceiver{
     	boolean isConnected = (activeNetwork != null) && activeNetwork.isConnected();
         if (isConnected) {
         	Intent i = new Intent(context, QuickNotesSyncService.class);
-        	context.startService(i); 
+        	context.startService(i);
         }
     }
 }

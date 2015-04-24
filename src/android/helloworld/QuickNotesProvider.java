@@ -162,13 +162,10 @@ public class QuickNotesProvider extends ContentProvider {
         public static final Uri CONTENT_URI = Uri.parse("content://"
 	                + QuickNotesProvider.AUTHORITY + "/notes");
 	 
-        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.jwei512.notes";
-	 
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.quicknotes";
         public static final String NOTE_ID = "_id";
-	 
         public static final String TEXT = "text";
-
-		public static final String SYNCED = "synced";
+        public static final String SYNCED = "synced";
     }
     
     private static class DBHelper extends SQLiteOpenHelper {

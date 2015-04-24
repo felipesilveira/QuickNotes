@@ -31,11 +31,7 @@
 
         <service android:name="android.helloworld.sync.QuickNotesSyncService" />
 
-         <receiver android:name="android.helloworld.sync.ConnWatcher">
-		     <intent-filter>
-		         <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-		 	</intent-filter>
-		</receiver>
+        <receiver android:name="android.helloworld.sync.SyncerBroadcastReceiver" />
     </application>
 
 </manifest>
